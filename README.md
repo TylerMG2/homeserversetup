@@ -64,11 +64,22 @@ If this was successful you should see a cool little text ubuntu logo and some ba
 ## Setting a static ip
 
 ## Remotely connecting to our server
+You probably don't want to constantly have your new server hooked up to some sort of monitor and have to head over to wherever it lives in your house to make changes. What if you could access the terminal of this computer from any computer in your house? This is where Secure Shell or SSH comes in. To put it simply, SSH allows for secure communication between a server (our host machine) and a client (what ever computer your connecting from). In our case we will be using SSH to remotely manage our home server. This [video](https://youtu.be/Atbl7D_yPug) gives a basic outline of how SSH secures messages sent to and from the server and client.
+
+### How to connect
+Well if you remember from the installation, we ticked a box about setting up OpenSSH, this means our system is already ready to recieve SSH connections, heres how to connect:
+```bash
+ssh {USER}@{HOST_IP OR HOST_NAME}
+```
+Here the user is the username of the account we created during the inital setup, and the host_ip/host_name is the ip of our server which we set to a static ip earlier. You should then be prompted for the password used to login to this user account. After typing this out hint enter and if everything goes to plan you should now be in the terminal of your home server. To check that its all working as expected, run the command from earlier.
+```bash
+neofetch
+```
 
 ## Securing your new server
 Security is a very complex but important part of being connected to the internet especially when it comes to self hosting. Whilst we can never truly secure our server, we can take steps to make it very difficult for bad actors to do anything harmful. This section will largely reference this [video](https://www.youtube.com/watch?v=ZhMw53Ud2tY&t=716s&ab_channel=NetworkChuck) from the 🐐 himself Network Chuck. I personally have watched a ton of his videos since becoming interested in the world of self hosting and they are incredibly enjoyable to watch as well as being very informative. I highly recommend them.
 
-In terms of things I would do slightly differently from the video is only allow access to the SSH port from ips within your local network. To do this instead of typing
+One thing I would do a bit differently from the video is only allowing access to the SSH port from ips within your local network. To do this instead of typing
 ```bash
 sudo ufw allow {PORT}
 ```
@@ -80,7 +91,10 @@ Where the default gateway is typically like 192.168.1.0 and the /24 is whats kno
 ```bash
 ip addr
 ```
-and look at the ip you were assigned by your ethernet connection (eno1), replace the last number with a 0. This is just another added layer of security and ensures only computers and devices on your local network can remotely access your servers terminal.
+and look at the ip you were assigned by your ethernet connection (eno1), replace the last number with a 0. This is just another added layer of security and ensures only computers and devices on your local network can remotely access your servers terminal. In case you already added the firewall rule from the video you can delete it like so:
+```bash
+sudo ufw delete allow {PORT}
+```
 
 ### Why does changing the default SSH port make our network more secure?
 Today the internet is full of thousands upon thousands of bots searching for devices connected to the internet that can be possibly exploited. SSH access is something commonly sought after by bad actors and one way to check if a machine has SSH setup is to try and access it on the default port. By changing the default port, we may effectively hide our system from a large portion of these bots scanning the internet.
