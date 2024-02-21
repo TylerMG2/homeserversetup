@@ -12,10 +12,21 @@ Anyway I hope you can find something useful out of this and feedback is much app
 - [Server Operating System](#ubuntu-server-lts-setup)
 - [Initial Security Setup]
 - [Server Architecture Overview]
+- [What is cloudflare?]
 - [Cloudflared tunnel setup]
+- [What is Docker?]
+- [Docker Networking]
+- [Docker Setup]
+- [What is Nginx?]
+- [Basic Nginx setup]
+- [Your first application]
+- [Deployment Overview]
+- []
 
 ### My servers hardware
-I will be running my server on an old [Dell Optiplex 990 SFF](https://i.dell.com/sites/doccontent/shared-content/data-sheets/en/Documents/optiplex-990-spec-sheet.pdf), the only differences from the base is I have an extra 4GB of RAM installed totalling 12GB aswell as a 250GB SSD
+I will be running my server on an old [Dell Optiplex 990 SFF](https://i.dell.com/sites/doccontent/shared-content/data-sheets/en/Documents/optiplex-990-spec-sheet.pdf), the only differences from the base is I have an extra 4GB of RAM installed totalling 12GB aswell as a 250GB SSD.
+
+It terms of network connection, I would highly, highly recommend connecting via ethernet for an easy setup and a much more reliable and stable connection. There are options for connecting via wifi but I will not be covering that here as it is not something I'm at all familar with.
 
 ### Ubuntu server LTS setup
 The Linux Distribution I've chosen is the latest stable version (LTS) of Ubuntu Server found [here](https://ubuntu.com/download/server), the specific version I'm using is 22.04.3 but I'm sure most steps will still apply. The main reasons I've chosen this distribution is for it's stability, security and access to upcoming technologies. However keep in mind that starting out with this can be fairly daunting especially if you aren't very familar with bash commands or a linux operating system.
