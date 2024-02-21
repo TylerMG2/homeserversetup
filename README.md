@@ -1,7 +1,7 @@
 # My Home Server Setup
 Hello, my names Tyler and this is a place where I will document my complete setup process for my home ubuntu server I am using to host all my projects like my [Custom Bingo Maker](https://bingo.tylergwin.com.au) and other in-home services such as [AdGuard](https://github.com/AdguardTeam) as a home DNS and network wide adblock. By no means will this be anywhere close to perfect or 100% secure its just a collection of what I've learnt over a couple months of diving into the deep end.
 
-This tutorial will go over from start to finish, my home setup for hosting both my home services and my projects online. Self hosting anything online securely can be a pretty scary and difficult thing to manage and sadly theres no real way to know that your system is 100% secure. So before starting anything, I would like to ask you to assess the level of risk your willing to take and what data you could be potentially exposing to the internet. That being said there are a variety of things we can do and put in place to drastically reduce the chance of an attack. From firewalls to changing default ports to setting up ssh keys all these things can make it much harder for an inexperienced or even experienced attacker to break in.
+This tutorial will go over from start to finish, my home setup for hosting both my home services and my projects online. Self hosting anything online securely can be a pretty scary and difficult thing to manage and sadly theres no real way to know that your system is 100% secure. So before starting anything, I would like to ask you to assess the level of risk your willing to take and what data you could be potentially exposing to the internet. That being said there are a variety of things we can do and put in place to drastically reduce the chance and impact of an attack. From firewalls to changing default ports to setting up ssh keys all these things can make it much harder for an inexperienced or even experienced attacker to break in.
 
 A lot of the time I will be linking to youtube videos I found useful in each section and then just discussing any variations or issues I had with the setup. In my opinion alot of these videos explain it way better than I ever could because they have alot more experience in the space then I do. I'll try my best where I see fit to describe the way I understand certain concepts but I would take these descriptions with a grain of salt as I am still very inexperiencd.
 
@@ -10,7 +10,9 @@ Anyway I hope you can find something useful out of this and feedback is much app
 ## Contents
 - [My servers hardware](#my-servers-hardware)
 - [Installing the Operating System](#ubuntu-server-lts-setup)
-- [Initial Security Setup]
+- [Setting a static IP](#setting-a-static-ip)
+- [Remotely Connecting to our server](#remotely-connecting-to-our-server)
+- [Initial Security Setup](#securing-your-new-server)
 - [Server Architecture Overview]
 - [What is cloudflare?]
 - [Cloudflared tunnel setup]
@@ -40,10 +42,46 @@ Now that you have your usb, we need to tell our computer to boot from it. To do 
 ### Ubuntu server setup
 Hopefully by this point you have successfully booted from the USB drive and can see some sort of installation screen. From here I would highly recommend following this [tutorial](https://www.youtube.com/watch?v=K2m52F0S2w8&ab_channel=TechHut) as it is really easy to follow and pretty much all we will need to do. The only difference is I wouldn't install the nextcloud package but its absolutely fine if you do. Optionally you could also install docker because we will be doing this in the future anyway and in general docker is a great tool.
 
-During this installation you'll notice a user account is created. A great feature of Ubuntu Server in terms of security is the fact that by default, the root account is disabled. Well what does this mean exactly? Well the root account in linux is typically like the super user or adminstrator of the machine, this means anything you do or any applications you run, will be run at with root priveleges. This isn't best practice as it increases the potentially for damage you or applications you run could have on your system, for example you wouldn't want application A accidently deleting all files used by application B because of some software bug. How do I do admin things then??? This is where sudo comes in, the user account you created on setup gets added to a group known as the sudo group, this basically allows you to perform certain tasks as the root user by prefix the command with sudo. The first instance of this you will likely see is the commands:
+### The Root Account
+During this installation you'll notice a user account is created. A great feature of Ubuntu Server in terms of security is the fact that by default, the root account is disabled. Well what does this mean exactly? Well the root account in linux is the super-user or admin of the machine, this means anything you do or any applications you run, will be run with root privileges. This isn't best practice as it increases the potentially for damage you or applications you run could have on your system, for example you wouldn't want application A accidently deleting all files used by application B because of some software bug. How do I do admin things then? This is where sudo comes in, the user account you created on setup gets added to a group known as the sudo group, this basically allows you to perform certain tasks as the root user by prefixing the command with sudo and sometimes typing a password. The first instance of this you will likely see is the commands:
 ```bash
 sudo apt update
 sudo apt upgrade
 ```
+These commands retrieve the latest versions of any installed packages and then upgrade to those latest versions.
 
+### What are packages?
+I like to think of packages in linux like any program you install on windows, they already come with all the 'code', enviroment, dependancies (other packages for example) that it takes to run the software. To install packages you typically use a package manager (which is also a package) to automate a lot of the process. In the case of Ubuntu Server and most debian based distributions APT is the default package manager and you probably recognise it from the command above. Package managers are responsible for automating the installation, updates and removal of packages. To install of first package, run the following command.
+```bash
+sudo apt install neofetch
+```
+You'll probably be prompted for confirmation, type y. Now you'll notice a wall of text, you can ignore this most of the time. Hopefully after a few seconds the installation will be done. To test out our new package simply type the command:
+```bash 
+neofetch
+```
+If this was successful you should see a cool little text ubuntu logo and some basic system information.
+
+## Setting a static ip
+
+## Remotely connecting to our server
+
+## Securing your new server
+Security is a very complex but important part of being connected to the internet especially when it comes to self hosting. Whilst we can never truly secure our server, we can take steps to make it very difficult for bad actors to do anything harmful. This section will largely reference this [video](https://www.youtube.com/watch?v=ZhMw53Ud2tY&t=716s&ab_channel=NetworkChuck) from the 🐐 himself Network Chuck. I personally have watched a ton of his videos since becoming interested in the world of self hosting and they are incredibly enjoyable to watch as well as being very informative. I highly recommend them.
+
+In terms of things I would do slightly differently from the video is only allow access to the SSH port from ips within your local network. To do this instead of typing
+```bash
+sudo ufw allow {PORT}
+```
+use
+```bash
+sudo ufw allow from {DEFAULT_GATEWAY}/24 to any port {PORT}
+```
+Where the default gateway is typically like 192.168.1.0 and the /24 is whats known as the subnet mask (Just think of it as outlining all the possible ip addresses within your network, in this case its just 192.168.20.1 to 192.168.20.254), if you are unsure of your default gateway type the command:
+```bash
+ip addr
+```
+and look at the ip you were assigned by your ethernet connection (eno1), replace the last number with a 0. This is just another added layer of security and ensures only computers and devices on your local network can remotely access your servers terminal.
+
+### Why does changing the default SSH port make our network more secure?
+Today the internet is full of thousands upon thousands of bots searching for devices connected to the internet that can be possibly exploited. SSH access is something commonly sought after by bad actors and one way to check if a machine has SSH setup is to try and access it on the default port. By changing the default port, we may effectively hide our system from a large portion of these bots scanning the internet.
 
