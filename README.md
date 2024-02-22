@@ -13,7 +13,7 @@ Anyway I hope you can find something useful out of this and feedback is much app
 - [Setting a static IP](#setting-a-static-ip)
 - [Remotely Connecting to our server](#remotely-connecting-to-our-server)
 - [Initial Security Setup](#securing-your-new-server)
-- [Server Architecture Overview]
+- [What we are going to try and build]
 - [What is cloudflare?]
 - [Cloudflared tunnel setup]
 - [What is Docker?]
