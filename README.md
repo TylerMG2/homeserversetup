@@ -11,7 +11,7 @@ Anyway I hope you can find something useful out of this and feedback is much app
 - [My servers hardware](#my-servers-hardware)
 - [Installing the Operating System](#ubuntu-server-lts-setup)
 - [Remotely Connecting to our server](#remotely-connecting-to-our-server)
-- [Configuring SSH](#configuring-ssh)
+- [Initial Security Setup](#initial-security-setup)
 - [What we are going to try and build]
 - [What is cloudflare?]
 - [Cloudflared tunnel setup]
@@ -93,7 +93,7 @@ Here the user is the username of the account we created during the inital setup,
 neofetch
 ```
 
-## Configuring SSH
+## Initial Security Setup
 Security is a very complex but important part of being connected to the internet especially when it comes to self hosting. Whilst we can never truly secure our server, we can take steps to make it very difficult for bad actors to do anything harmful. This section will largely reference this [video](https://www.youtube.com/watch?v=ZhMw53Ud2tY&t=716s&ab_channel=NetworkChuck) from the 🐐 himself Network Chuck. I personally have watched a ton of his videos since becoming interested in the world of self hosting and they are incredibly enjoyable to watch as well as being very informative. I highly recommend them.
 
 One thing I would do a bit differently from the video is only allowing access to the SSH port from ips within your local network. To do this instead of typing
