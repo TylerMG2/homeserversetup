@@ -40,7 +40,18 @@ The first steps in the installation process involve downloading the [LTS of Ubun
 Now that you have your usb, we need to tell our computer to boot from it. To do this make sure the computer is off and then during the boot process, I find it best to spam f1, f2, f10, f12 and del (hopefully one of them works). After that you should either be in the bios or if your lucky some sort of boot selector. At this point the setup will largely depend on your motherboard, but your looking to find some sort of boot options and change the order to have the USB be the first thing your system boots from. If you need a more in depth tutorial check out [this](https://www.youtube.com/watch?v=wH9q3KSISvQ&ab_channel=AvoidErrors).
 
 ### Ubuntu server setup
-Hopefully by this point you have successfully booted from the USB drive and can see some sort of installation screen. From here I would highly recommend following this [tutorial](https://www.youtube.com/watch?v=K2m52F0S2w8&ab_channel=TechHut) as it is really easy to follow and pretty much all we will need to do. The only difference is I wouldn't install the nextcloud package but its absolutely fine if you do. Optionally you could also install docker because we will be doing this in the future anyway and in general docker is a great tool.
+Hopefully by this point you have successfully booted from the USB drive and can see some sort of installation screen. From here I would highly recommend following this [tutorial](https://www.youtube.com/watch?v=K2m52F0S2w8&ab_channel=TechHut) as it is really easy to follow and pretty much all we will need to do. **Before** you follow this tutorial please check out the differences below:
+
+- At this [part](https://youtu.be/K2m52F0S2w8?t=135) we will be setting a static ip like so:
+  1. Select the ethernet port currently being used (you should see its assigned an ip address like 102.168.x.x for example) note down the assigned IP and hit enter
+  2. In this dropdown, navigate to edit IPv4 and hit enter
+  3. Change the mode to manual
+  4. Think of the subnet like a group of IPs for now, to define it take the first 3 numbers of the IP we noted down before and add a .0/24. For example if your assigned IP was 192.168.1.8 use 192.168.1.0/24 basically this defines the subnet as ips in the range 192.168.1.1 - 192.168.1.254.
+  5. For Address put in your prefered static ip, it has to be in the subnet (192.168.1.1 - 192.168.1.254) and make sure its not already taken, if you are unsure picking something like x.x.x.100 is a pretty safe bet.
+  6. For gateway again take the first 3 numbers of your the IP you wrote down followed by a .1 (192.168.1.1 for example)
+  7. Finally for name servers (also known as DNS) we are just going to uses googles so 8.8.8.8,8.8.4.4
+  8. Leave any other options blank
+- Finally at this [part](https://youtu.be/K2m52F0S2w8?t=319) instead of installing nextcloud, install docker (stable version). We will be using this later so may aswell get it done.
 
 ### The Root Account
 During this installation you'll notice a user account is created. A great feature of Ubuntu Server in terms of security is the fact that by default, login to the root account via password is disabled. Well what does this mean exactly? Well the root account in linux is the super-user or admin of the machine, this means anything you do or any applications you run, will be run with root privileges. This isn't best practice as it increases the potentially for damage you or applications you run could have on your system. For example you wouldn't want application A accidently deleting all files used by application B because of some software bug. How do I do admin things then? This is where sudo comes in, the user account you created on setup gets added to a group known as the sudo group, this basically allows you to perform certain tasks as the root user by prefixing the command with sudo and sometimes typing a password. The first instance of this you will likely see is the commands:
@@ -60,8 +71,6 @@ You'll probably be prompted for confirmation, type y. Now you'll notice a wall o
 neofetch
 ```
 If this was successful you should see a cool little text ubuntu logo and some basic system information.
-
-## Setting a static ip
 
 ## Remotely connecting to our server
 You probably don't want to constantly have your new server hooked up to some sort of monitor and have to head over to wherever it lives in your house to make changes. What if you could access the terminal of this computer from any computer in your house? This is where Secure Shell or SSH comes in. To put it simply, SSH allows for secure communication between a server (our host machine) and a client (what ever computer your connecting from). In our case we will be using SSH to remotely manage our home server. This [video](https://youtu.be/Atbl7D_yPug) gives a basic outline of how SSH secures messages sent to and from the server and client.
