@@ -10,9 +10,8 @@ Anyway I hope you can find something useful out of this and feedback is much app
 ## Contents
 - [My servers hardware](#my-servers-hardware)
 - [Installing the Operating System](#ubuntu-server-lts-setup)
-- [Setting a static IP](#setting-a-static-ip)
 - [Remotely Connecting to our server](#remotely-connecting-to-our-server)
-- [Initial Security Setup](#securing-your-new-server)
+- [Configuring SSH](#configuring-ssh)
 - [What we are going to try and build]
 - [What is cloudflare?]
 - [Cloudflared tunnel setup]
@@ -47,11 +46,20 @@ Hopefully by this point you have successfully booted from the USB drive and can 
   2. In this dropdown, navigate to edit IPv4 and hit enter
   3. Change the mode to manual
   4. Think of the subnet like a group of IPs for now, to define it take the first 3 numbers of the IP we noted down before and add a .0/24. For example if your assigned IP was 192.168.1.8 use 192.168.1.0/24 basically this defines the subnet as ips in the range 192.168.1.1 - 192.168.1.254.
-  5. For Address put in your prefered static ip, it has to be in the subnet (192.168.1.1 - 192.168.1.254) and make sure its not already taken, if you are unsure picking something like x.x.x.100 is a pretty safe bet.
-  6. For gateway again take the first 3 numbers of your the IP you wrote down followed by a .1 (192.168.1.1 for example)
-  7. Finally for name servers (also known as DNS) we are just going to uses googles so 8.8.8.8,8.8.4.4
+  5. The address value will be the LAN ip address of our server on our network. It has to be in the subnet (192.168.1.1 - 192.168.1.254) and make sure its not already taken, if you are unsure picking something like x.x.x.100 is a pretty safe bet.
+  6. The Gateway is where our server goes to talk to others on the local network or the internet (WAN), in this case we will use the router. For gateway again take the first 3 numbers of your the IP you wrote down followed by a .1 (192.168.1.1 for example)
+  7. Finally for name servers (also known as DNS) we are just going to uses googles so 8.8.8.8,8.8.4.4. You don't need to know what this is just yet.
   8. Leave any other options blank
 - Finally at this [part](https://youtu.be/K2m52F0S2w8?t=319) instead of installing nextcloud, install docker (stable version). We will be using this later so may aswell get it done.
+
+After everything is setup and you have logged into your user account, run the command:
+```bash
+ip addr
+```
+This will show your network interfaces, you should see 3. 
+- One called lo (Computer uses this to communicate with itself, the inet value should be something like 127.0.0.1/8)
+- Another called something like enxx or other varieties. This is our ethernet interface and here you should see that the inet value has the ip address we set earlier
+- The final one should be called docker0 and this was created automatically when we installed docker. You can ignore this for now but it will become relevant later on.
 
 ### The Root Account
 During this installation you'll notice a user account is created. A great feature of Ubuntu Server in terms of security is the fact that by default, login to the root account via password is disabled. Well what does this mean exactly? Well the root account in linux is the super-user or admin of the machine, this means anything you do or any applications you run, will be run with root privileges. This isn't best practice as it increases the potentially for damage you or applications you run could have on your system. For example you wouldn't want application A accidently deleting all files used by application B because of some software bug. How do I do admin things then? This is where sudo comes in, the user account you created on setup gets added to a group known as the sudo group, this basically allows you to perform certain tasks as the root user by prefixing the command with sudo and sometimes typing a password. The first instance of this you will likely see is the commands:
@@ -62,7 +70,7 @@ sudo apt upgrade
 These commands retrieve the latest versions of any installed packages and then upgrade to those latest versions.
 
 ### What are packages?
-I like to think of packages in linux like any program you install on windows, they already come with all the 'code', enviroment, dependancies (other packages for example) that it takes to run the software. To install packages you typically use a package manager (which is also a package) to automate a lot of the process. In the case of Ubuntu Server and most debian based distributions APT is the default package manager and you probably recognise it from the command above. Package managers are responsible for automating the installation, updates and removal of packages. To install of first package, run the following command.
+I like to think of packages in linux like any program you install on windows, they already come with all the 'code', enviroment, dependancies (other packages for example) that it takes to run the software. To install packages you typically use a package manager (which is also a package) to automate a lot of the process. In the case of Ubuntu Server and most debian based distributions APT is the default package manager and you probably recognise it from the command above. Package managers are responsible for automating the installation, updates and removal of packages. To install our first package, run the following command.
 ```bash
 sudo apt install neofetch
 ```
@@ -85,7 +93,7 @@ Here the user is the username of the account we created during the inital setup,
 neofetch
 ```
 
-## Securing your new server
+## Configuring SSH
 Security is a very complex but important part of being connected to the internet especially when it comes to self hosting. Whilst we can never truly secure our server, we can take steps to make it very difficult for bad actors to do anything harmful. This section will largely reference this [video](https://www.youtube.com/watch?v=ZhMw53Ud2tY&t=716s&ab_channel=NetworkChuck) from the 🐐 himself Network Chuck. I personally have watched a ton of his videos since becoming interested in the world of self hosting and they are incredibly enjoyable to watch as well as being very informative. I highly recommend them.
 
 One thing I would do a bit differently from the video is only allowing access to the SSH port from ips within your local network. To do this instead of typing
