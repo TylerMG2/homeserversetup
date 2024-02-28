@@ -102,13 +102,9 @@ sudo ufw allow {PORT}
 ```
 use
 ```bash
-sudo ufw allow from {DEFAULT_GATEWAY}/24 to any port {PORT}
+sudo ufw allow from {SUBNET or Specific IP} to any port {PORT}
 ```
-Where the default gateway is typically like 192.168.1.0 and the /24 is whats known as the subnet mask (Just think of it as outlining all the possible ip addresses within your network, in this case its just 192.168.20.1 to 192.168.20.254), if you are unsure of your default gateway type the command:
-```bash
-ip addr
-```
-and look at the ip you were assigned by your ethernet connection (eno1), replace the last number with a 0. This is just another added layer of security and ensures only computers and devices on your local network can remotely access your servers terminal. In case you already added the firewall rule from the video you can delete it like so:
+Where the SUBNET is something we covered when setting a static ip address for our server, basically replace the last number with a .0/24 in your IP address.
 ```bash
 sudo ufw delete allow {PORT}
 ```
