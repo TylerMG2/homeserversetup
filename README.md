@@ -92,7 +92,7 @@ You probably don't want to constantly have your new server hooked up to some sor
 ### How to connect
 Well if you remember from the installation, we ticked a box about setting up OpenSSH, this means our system is already ready to recieve SSH connections, heres how to connect:
 ```bash
-ssh {USER}@{HOST_IP OR HOST_NAME}
+ssh {USER}@{SERVER_IP OR HOST_NAME}
 ```
 Here the user is the username of the account we created during the inital setup, and the host_ip/host_name is the ip of our server which we set to a static ip earlier. You should then be prompted for the password used to login to this user account. After typing this out hint enter and if everything goes to plan you should now be in the terminal of your home server. To check that its all working as expected, run the command from earlier.
 ```bash
