@@ -61,6 +61,12 @@ This will show your network interfaces, you should see 3.
 - Another called something like enxx or other varieties. This is our ethernet interface and here you should see that the inet value has the ip address we set earlier
 - The final one should be called docker0 and this was created automatically when we installed docker. You can ignore this for now but it will become relevant later on.
 
+Just for good measure run the following command to check that we can reach the internet.
+```bash
+ping www.google.com
+```
+You should see a series of messages from some domain or ip in response. If you see something like 'Unable to reach host' then something went wrong during setup. To stop the constant messages simply hit ctrl followed by c to terminate the process.
+
 ### The Root Account
 During this installation you'll notice a user account is created. A great feature of Ubuntu Server in terms of security is the fact that by default, login to the root account via password is disabled. Well what does this mean exactly? Well the root account in linux is the super-user or admin of the machine, this means anything you do or any applications you run, will be run with root privileges. This isn't best practice as it increases the potentially for damage you or applications you run could have on your system. For example you wouldn't want application A accidently deleting all files used by application B because of some software bug. How do I do admin things then? This is where sudo comes in, the user account you created on setup gets added to a group known as the sudo group, this basically allows you to perform certain tasks as the root user by prefixing the command with sudo and sometimes typing a password. The first instance of this you will likely see is the commands:
 ```bash
