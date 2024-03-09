@@ -98,6 +98,7 @@ Here the user is the username of the account we created during the inital setup,
 ```bash
 neofetch
 ```
+Once you have confirmed this all works, try restarting the computer and connecting again. If that works you shouldn't need a monitor attached anymore and feel free to move the server wherever you like!
 
 ## Initial Security Setup
 Security is a very complex but important part of being connected to the internet especially when it comes to self hosting. Whilst we can never truly secure our server, we can take steps to make it very difficult for bad actors to do anything harmful. This section will largely reference this [video](https://www.youtube.com/watch?v=ZhMw53Ud2tY&t=716s&ab_channel=NetworkChuck) from the 🐐 himself Network Chuck. I personally have watched a ton of his videos since becoming interested in the world of self hosting and they are incredibly enjoyable to watch as well as being very informative. I highly recommend them.
