@@ -42,7 +42,7 @@ Now that you have your usb, we need to tell our computer to boot from it. To do 
 Hopefully by this point you have successfully booted from the USB drive and can see some sort of installation screen. From here I would highly recommend following this [tutorial](https://www.youtube.com/watch?v=K2m52F0S2w8&ab_channel=TechHut) as it is really easy to follow and pretty much all we will need to do. **Before** you follow this tutorial please check out the differences below:
 
 - At this [part](https://youtu.be/K2m52F0S2w8?t=135) we will be setting a static ip like so:
-  1. Select the ethernet port currently being used (you should see its assigned an ip address like 102.168.x.x for example) note down the assigned IP and hit enter
+  1. Select the ethernet port currently being used (you should see its assigned an ip address like 192.168.x.x for example) note down the assigned IP and hit enter
   2. In this dropdown, navigate to edit IPv4 and hit enter
   3. Change the mode to manual
   4. Think of the subnet like a group of IPs for now, to define it take the first 3 numbers of the IP we noted down before and add a .0/24. For example if your assigned IP was 192.168.1.8 use 192.168.1.0/24 basically this defines the subnet as ips in the range 192.168.1.1 - 192.168.1.254.
